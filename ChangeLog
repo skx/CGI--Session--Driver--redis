@@ -14,5 +14,6 @@ Revision history for Perl extension CGI::Session::Driver::redis.
 0.4 - 20-06-2014
 	- Migrated to git, and link to github.com.
 	- Added more style-tests.
-	- Implemented missing `find` method.
+	- Implemented missing `traverse` method,
+	  allowing CGI::Session::find to operate
 
