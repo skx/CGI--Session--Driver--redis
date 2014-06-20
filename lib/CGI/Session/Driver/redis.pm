@@ -125,7 +125,7 @@ sub store
     # Get the prefix, and build a key
     #
     my $prefix = $self->{ 'Prefix' } || "session";
-    my $key    = $prefix . ':' . $sid;
+    my $key = $prefix . ':' . $sid;
 
     #
     # redis doesn't like to have whitespace in the keys.
@@ -138,9 +138,15 @@ sub store
     $self->{ 'Redis' }->set( $key, $datastr );
 
     #
+    # Add this key to the known list of sessions; required so that
+    # traverse can succeed.
+    #
+    $self->{ 'Redis' }->sadd( $prefix . ":members", $key );
+
+    #
     #  Set the expiry time, in seconds, if present.
     #
-    my $expire = $self->{'Expire'} || 0;
+    my $expire = $self->{ 'Expire' } || 0;
     if ( $expire && $expire > 0 )
     {
         $self->{ 'Redis' }->expire( $key, $expire );
@@ -165,14 +171,14 @@ sub retrieve
     # Get the prefix, and build a key
     #
     my $prefix = $self->{ 'Prefix' } || "session";
-    my $key    = $prefix . ':' . $sid;
+    my $key = $prefix . ':' . $sid;
 
     #
     # redis doesn't like to have whitespace in the keys.
     #
     $key =~ s/[ \t\r\n]//g;
 
-    my $rv = $self->{ 'Redis' }->get( $key );
+    my $rv = $self->{ 'Redis' }->get($key);
     return 0 unless defined($rv);
     return $rv;
 }
@@ -195,7 +201,7 @@ sub remove
     # Get the prefix, and build a key
     #
     my $prefix = $self->{ 'Prefix' } || "session";
-    my $key    = $prefix . ':' . $sid;
+    my $key = $prefix . ':' . $sid;
 
     #
     # redis doesn't like to have whitespace in the keys.
@@ -203,7 +209,12 @@ sub remove
     $key =~ s/[ \t\r\n]//g;
 
     # remove the data associated with the id
-    $self->{ 'Redis' }->del( $key );
+    $self->{ 'Redis' }->del($key);
+
+    #
+    # Remove this key from the known list of sessions.
+    #
+    $self->{ 'Redis' }->srem( $prefix . ":members", $key );
 
     return 1;
 }
@@ -219,9 +230,45 @@ sub teardown
 sub DESTROY
 {
     my $self = shift;
+
     # NOP
 }
 
+=head2 traverse
+
+Invoke the specified code reference on each active session.
+
+This is required to allow this driver to be used with the L<CGI::Session/find> method.
+
+=cut
+
+sub traverse
+{
+    my $self = shift;
+    my ($coderef) = @_;
+
+    unless ( $coderef && ref($coderef) && ( ref $coderef eq 'CODE' ) )
+    {
+        croak "traverse(): usage error";
+    }
+
+    my $prefix = $self->{ 'Prefix' } || "session";
+    my $key = $prefix . ':members';
+
+    #
+    # Redis doesn't like to have whitespace in the keys.
+    #
+    $key =~ s/[ \t\r\n]//g;
+
+    #
+    #  For each key invoke the callback.
+    #
+    foreach my $session ( $self->{ 'Redis' }->smembers($key) )
+    {
+        $coderef->($session);
+    }
+    return 1;
+}
 
 
 1;
