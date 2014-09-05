@@ -17,3 +17,6 @@ Revision history for Perl extension CGI::Session::Driver::redis.
 	- Implemented missing `traverse` method,
 	  allowing CGI::Session::find to operate
 
+0.5 - 05-08-2014
+	- Updated Makefile.PL to list license.
+	- Updated Makefile.PL to list build/run dependencies.
