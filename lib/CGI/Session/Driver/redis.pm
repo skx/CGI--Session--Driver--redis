@@ -9,7 +9,7 @@ use CGI::Session::Driver;
 @CGI::Session::Driver::redis::ISA = ("CGI::Session::Driver");
 
 use vars qw($VERSION);
-our $VERSION = "0.5";
+our $VERSION = "0.5.1";
 
 
 =pod
@@ -35,6 +35,15 @@ CGI::Session::Driver::redis - CGI::Session driver for redis
 This backend stores session data in a persistent redis server, with
 the ability to specify an expiry time in seconds.
 
+=head1 REQUIREMENTS
+
+=over 4
+
+=item L<CGI::Session>
+
+=item L<Redis>
+
+=back
 
 =head1 DRIVER ARGUMENTS
 
@@ -44,7 +53,7 @@ The following options may be passed to the constructor:
 
 =item C<Expiry>
 
-Which is the time to expire the sessions, in seconds, in inactivity.
+Which is the time to expire the sessions, in seconds, on inactivity.
 Supplying a value of "0" equates to never expiring sessions.
 
 =item C<Prefix>
@@ -58,31 +67,10 @@ A Redis object which will be used to store the session data within.
 
 =back
 
-=head1 REQUIREMENTS
-
-=over 4
-
-=item L<CGI::Session>
-
-=item L<Redis>
-
-=back
-
-=head1 AUTHOR
-
-Steve Kemp <steve@steve.org.uk>
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright (C) 2010-2014 Steve Kemp <steve@steve.org.uk>.
-
-This library is free software. You can modify and or distribute it under
-the same terms as Perl itself.
-
-=cut
-
 
 =head1 METHODS
+
+Now follows documentation on the available methods.
 
 =cut
 
@@ -297,3 +285,19 @@ L<Redis|Redis> - Redis interface library.
 =back
 
 =cut
+
+
+
+=head1 AUTHOR
+
+Steve Kemp <steve@steve.org.uk>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2010-2014 Steve Kemp <steve@steve.org.uk>.
+
+This library is free software. You can modify and or distribute it under
+the same terms as Perl itself.
+
+=cut
+
