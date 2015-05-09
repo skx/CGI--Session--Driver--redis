@@ -9,7 +9,7 @@ use CGI::Session::Driver;
 @CGI::Session::Driver::redis::ISA = ("CGI::Session::Driver");
 
 use vars qw($VERSION);
-our $VERSION = "0.5.1";
+our $VERSION = "0.6";
 
 
 =pod
@@ -127,7 +127,7 @@ sub store
 
     #
     # Add this key to the known list of sessions; required so that
-    # traverse can succeed.
+    # `traverse` can succeed.
     #
     $self->{ 'Redis' }->sadd( $prefix . ":members", $key );
 
