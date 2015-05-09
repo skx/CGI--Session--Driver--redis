@@ -118,7 +118,7 @@ sub store
     #
     # redis doesn't like to have whitespace in the keys.
     #
-    $key =~ s/[ \t\r\n]//g;
+    $key =~ s/\s//g;
 
     #
     # Store in the server
@@ -164,7 +164,7 @@ sub retrieve
     #
     # redis doesn't like to have whitespace in the keys.
     #
-    $key =~ s/[ \t\r\n]//g;
+    $key =~ s/\s//g;
 
     my $rv = $self->{ 'Redis' }->get($key);
     return 0 unless defined($rv);
@@ -194,7 +194,7 @@ sub remove
     #
     # redis doesn't like to have whitespace in the keys.
     #
-    $key =~ s/[ \t\r\n]//g;
+    $key =~ s/\s//g;
 
     # remove the data associated with the id
     $self->{ 'Redis' }->del($key);
@@ -246,7 +246,7 @@ sub traverse
     #
     # Redis doesn't like to have whitespace in the keys.
     #
-    $key =~ s/[ \t\r\n]//g;
+    $key =~ s/\s//g;
 
     #
     #  For each key invoke the callback.
