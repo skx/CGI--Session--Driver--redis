@@ -24,3 +24,7 @@ Revision history for Perl extension CGI::Session::Driver::redis.
 0.5.1 - 26-10-2014
 	- Updated Makefile.PL to duplicate "TEST_REQUIRES" as "BUILD_REQUIRES".
 	- Minor POD updates.
+
+0.6 - 09-05-2015
+	- Simplified the whitespace removal from keys.
+    - Updated copyright year.
