@@ -28,3 +28,7 @@ Revision history for Perl extension CGI::Session::Driver::redis.
 0.6 - 09-05-2015
         - Simplified the whitespace removal from keys.
         - Updated copyright year.
+
+0.7 - 27-02-2016
+        - Added missing build-dependency on File::ShareDir::Install
+		- Updated copyright year.
