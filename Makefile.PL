@@ -34,6 +34,7 @@ my %WriteMakefileArgs = (
     },
 
     BUILD_REQUIRES => {
+                       'File::ShareDir::Install' => 0,
 
         # solely for the test-suite.
         'Test::More'      => 0,
