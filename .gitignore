@@ -3,3 +3,4 @@ Makefile.old
 MYMETA.yml
 pm_to_blib
 blib/
+MYMETA.json
