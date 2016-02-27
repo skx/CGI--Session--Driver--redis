@@ -9,7 +9,7 @@ use CGI::Session::Driver;
 @CGI::Session::Driver::redis::ISA = ("CGI::Session::Driver");
 
 use vars qw($VERSION);
-our $VERSION = "0.6";
+our $VERSION = "0.7";
 
 
 =pod
